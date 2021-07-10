@@ -19,37 +19,43 @@ def extract_triangles(file_name):
         print('File not found')
 
 
+def sides_from_triangles(all_triangles):    # extracting all triangle sides
+    all_sides = []
+    for triangle in all_triangles:
+        if triangle[0] < triangle[1]:
+            all_sides.append((triangle[0], triangle[1]))
+        else:
+            all_sides.append((triangle[1], triangle[0]))
+
+        if triangle[0] < triangle[2]:
+            all_sides.append((triangle[0], triangle[2]))
+        else:
+            all_sides.append((triangle[2], triangle[0]))
+
+        if triangle[1] < triangle[2]:
+            all_sides.append((triangle[1], triangle[2]))
+        else:
+            all_sides.append((triangle[2], triangle[1]))
+
+    return all_sides
+
+
+def sides_only_once(all_sides):     # extracting sides that apeear only once
+    dct = {}
+    for side in all_sides:
+        dct[side] = dct.get(side, 0) + 1
+
+    side_once = []
+    for side in dct:
+        if dct[side] == 1:
+            side_once.append(side)
+
+    return side_once
+
+
 triangles = extract_triangles('dol.stl')
-
-all_sides = []
-
-for triangle in triangles:
-    if triangle[0] < triangle[1]:
-        all_sides.append((triangle[0], triangle[1]))
-    else:
-        all_sides.append((triangle[1], triangle[0]))
-
-    if triangle[0] < triangle[2]:
-        all_sides.append((triangle[0], triangle[2]))
-    else:
-        all_sides.append((triangle[2], triangle[0]))
-
-    if triangle[1] < triangle[2]:
-        all_sides.append((triangle[1], triangle[2]))
-    else:
-        all_sides.append((triangle[2], triangle[1]))
-
-dct = {}
-for side in all_sides:
-    dct[side] = dct.get(side, 0) + 1
+sides = sides_from_triangles(triangles)
+sides_once = sides_only_once(sides)
 
 
-side_one = []
-for side in dct:
-    if dct[side] == 1:
-        side_one.append(side)
 
-print(len(side_one))
-print(len(all_sides))
-
-# cos jest zle bo mimo wszystko w sieone znalazl sie bok ktory jest w rzeczywistosci dwa razy
