@@ -4,9 +4,17 @@ from pathvalidate import is_valid_filename
 def extract_triangles_from_stl_file():
     """Extracting all triangle coordinates from stl file."""
     triangles_data = []
+
     while True:
+        filename = input('Enter the name of file in STL ASCII format(eg. \'upperjaw.stl\'): ')
+        if not filename.endswith('.stl'):
+            print('The file name must end with \'.stl\'.')
+            continue
         try:
-            with open(input('Filename in STL ASCII format: ')) as f:
+            with open(filename) as f:
+                if 'solid' not in f.readline():
+                    print(filename, 'is not in ASCII format.')
+                    continue
                 for line in f:
                     if 'outer loop' in line:  # That's means the next 3 lines consists 3 vertices of 1 triangle
                         ls = f.readline().split()
@@ -19,6 +27,11 @@ def extract_triangles_from_stl_file():
             break
         except FileNotFoundError:
             print('File not found')
+        except IndexError:
+            print('File error')
+
+    print('Triangles in source:', len(triangles_data))
+    print('Vertecies in source:', 3*len(triangles_data))
     return triangles_data
 
 
@@ -84,45 +97,50 @@ def get_teeth_holes_in_contour(all_sides_contours, min_hole_line_length=100, max
         if min_hole_line_length < len(one_of_contours) < max_hole_line_length:  # Determing all teeth holes in one list
             teeth_holes_contours.extend(one_of_contours)
 
+    print('Points in output .obj file:', len(teeth_holes_contours))
     return teeth_holes_contours
 
 
 def export_to_file(points, filename):
     """Exporting 3D points as .obj file."""
     try:
-        with open(filename, "w") as f:
+        with open(filename + '.obj', "w") as f:
             for point in points:
-                f.write('v' + str(point[0]) + ' ' + str(point[1]) + ' ' + str(point[2]) + '\n')
+                f.write('v' + ' ' + str(point[0]) + ' ' + str(point[1]) + ' ' + str(point[2]) + '\n')
     except IOError:
         print('Unable to create file on disk')
 
 
-all_triangles = extract_triangles_from_stl_file()
-all_sides = get_sides_of_triangles(all_triangles[:])  # One side is definied by two vertices
-contour = get_contour(all_sides[:])
-teeth_hole_contour_points = get_teeth_holes_in_contour(contour[:])
+def main_function():
+    all_triangles = extract_triangles_from_stl_file()
+    all_sides = get_sides_of_triangles(all_triangles[:])  # One side is definied by two vertices
+    contour = get_contour(all_sides[:])
+    teeth_hole_contour_points = get_teeth_holes_in_contour(contour[:])
+
+    # UI
+    while True:
+        ans = input('Print teeth hole contour points in console? (y/n):')
+        if ans == 'y' or ans == 'Y':
+            for point in teeth_hole_contour_points:
+                print(*point)
+            break
+        elif ans == 'n' or ans == 'N':
+            break
+
+    while True:
+        ans = input('Create .obj file with result? (y/n):')
+        if ans == 'y' or ans == 'Y':
+            while True:
+                filename = input('Name of file to create:')
+                if is_valid_filename(filename):
+                    export_to_file(teeth_hole_contour_points, filename)
+                    break
+                else:
+                    print('Invalid filename')
+            break
+        elif ans == 'n' or ans == 'N':
+            break
 
 
-while True:
-    ans = input('Print teeth hole contour points in console? (y/n):')
-    if ans == 'y' or ans == 'Y':
-        for point in teeth_hole_contour_points:
-            print(*point)
-        break
-    elif ans == 'n' or ans == 'N':
-        break
-
-while True:
-    ans = input('Create .obj file with result? (y/n):')
-    if ans == 'y' or ans == 'Y':
-        while True:
-            filename = input('Name of file to create:')
-            if is_valid_filename(filename):
-                export_to_file(teeth_hole_contour_points, filename)
-                break
-        break
-    elif ans == 'n' or ans == 'N':
-        break
-
-
-
+if __name__ == '__main__':
+    main_function()
