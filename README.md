@@ -5,7 +5,7 @@ GumsContour is a program which finds contours of gums in 3D oral cavity model. I
 
 
 <p align="center">
-    Example of oral cavity model as STL ASCII file:
+    Example of oral cavity model(STL ASCII):
 </p>
 
 <p align="center">
