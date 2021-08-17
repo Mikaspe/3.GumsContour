@@ -13,7 +13,7 @@ GumsContour is a program which finds contours of gums in 3D oral cavity model. I
 </p>
 
 <p align="center">
-    Input and output of upper and lower jaw:
+    Input and output(.obj) of upper and lower jaw:
 </p>
 
 
