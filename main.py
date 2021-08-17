@@ -75,13 +75,13 @@ def get_contour(sides):
     return sides_contour
 
 
-def get_teeth_holes_in_contour(all_sides_contours, min_hole_line_length=100, max_hole_line_length=400):
-    """Determing teeth holes contour points of whole model contours."""
-    teeth_holes_contours = []
-    while all_sides_contours:  # This loop separates each contour in model and picks contours that makes a teeth holes
+def get_gums_contour(all_sides_contours, min_gum_line_length=100, max_gum_line_length=400):
+    """Determing gums contour points of whole model contours."""
+    gums_contour = []
+    while all_sides_contours:  # This loop separates each contour in model and picks contours that makes a gum
         one_of_contours = [all_sides_contours[0][0]]
         while True:  # This loop determine each one of model contours in 'one_of_contours'
-            # for loop checks if point of one side is also an point in another side, so it makes same contour
+            # for loop checks if point of one side is also an point in another side, so it makes same line contour
             for side in all_sides_contours:
                 if one_of_contours[-1] == side[0]:
                     one_of_contours.append(side[1])
@@ -94,11 +94,11 @@ def get_teeth_holes_in_contour(all_sides_contours, min_hole_line_length=100, max
             else:  # That's means there's no more points(sides) in 'one_of_contours'
                 break
 
-        if min_hole_line_length < len(one_of_contours) < max_hole_line_length:  # Determing all teeth holes in one list
-            teeth_holes_contours.extend(one_of_contours)
+        if min_gum_line_length < len(one_of_contours) < max_gum_line_length:  # Determing all gums in one list
+            gums_contour.extend(one_of_contours)
 
-    print('Points in output .obj file:', len(teeth_holes_contours))
-    return teeth_holes_contours
+    print('Points in output .obj file:', len(gums_contour))
+    return gums_contour
 
 
 def export_to_file(points, filename):
@@ -115,13 +115,13 @@ def main_function():
     all_triangles = extract_triangles_from_stl_file()
     all_sides = get_sides_of_triangles(all_triangles[:])  # One side is definied by two vertices
     contour = get_contour(all_sides[:])
-    teeth_hole_contour_points = get_teeth_holes_in_contour(contour[:])
+    gums_contour_points = get_gums_contour(contour[:])
 
     # UI
     while True:
-        ans = input('Print teeth hole contour points in console? (y/n):')
+        ans = input('Print gums contour points in console? (y/n):')
         if ans == 'y' or ans == 'Y':
-            for point in teeth_hole_contour_points:
+            for point in gums_contour_points:
                 print(*point)
             break
         elif ans == 'n' or ans == 'N':
@@ -133,7 +133,7 @@ def main_function():
             while True:
                 filename = input('Name of file to create:')
                 if is_valid_filename(filename):
-                    export_to_file(teeth_hole_contour_points, filename)
+                    export_to_file(gums_contour_points, filename)
                     break
                 else:
                     print('Invalid filename')
