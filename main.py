@@ -8,7 +8,7 @@ def extract_triangles_from_stl_file():
     while True:
         filename = input('Enter the name of file in STL ASCII format(eg. \'upperjaw.stl\'): ')
         if not filename.endswith('.stl'):
-            print('The file name must end with \'.stl\'.')
+            print('The file extension must be \'.stl\'.')
             continue
         try:
             with open(filename) as f:
@@ -67,7 +67,7 @@ def get_contour(sides):
     for side in sides:  # Counting how many times same side appears
         sides_counter[side] = sides_counter.get(side, 0) + 1
 
-    sides_contour = []  # Sides that makes model contour
+    sides_contour = []  # Sides that make model contour
     for side in sides_counter:  # Choosing sides that appears once - model contour
         if sides_counter[side] == 1:
             sides_contour.append(side)
