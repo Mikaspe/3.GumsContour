@@ -1,11 +1,11 @@
-# 3.Teeth
+# GumsContour
 
-Teeth is a program which finds contours of gums in 3D oral cavity model. Input file is STL ASCII and result is .obj file. 
+GumsContour is a program which finds contours of gums in 3D oral cavity model. Input file is STL ASCII and result is .obj file. 
 
 
 
 <p align="center">
-    Model of oral cavity as STL ASCII file:
+    Example of oral cavity model as STL ASCII file:
 </p>
 
 <p align="center">
