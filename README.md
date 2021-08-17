@@ -28,7 +28,7 @@ GumsContour is a program which finds contours of gums in 3D oral cavity model. I
   
 <p align="center"> 
   <img width="415" height="268" src="https://user-images.githubusercontent.com/41167000/129718963-c0810299-dadb-44e9-b9d6-1a7b71eed902.png">
-  <img width="472" height="268" src="https://user-images.githubusercontent.com/41167000/129719085-86f12da6-1005-4c2b-ad5e-6c8b19078299.png">
+  <img width="415" height="268" src="https://user-images.githubusercontent.com/41167000/129719085-86f12da6-1005-4c2b-ad5e-6c8b19078299.png">
 </p>
 
 
