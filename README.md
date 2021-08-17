@@ -21,7 +21,7 @@ GumsContour is a program which finds contours of gums in 3D oral cavity model. I
 ![10](https://user-images.githubusercontent.com/41167000/129712282-aa9c7d13-b0bc-4c78-8829-5fb1f6287c04.png)
 
 <p align="center">
-    Project has been made for cutting process in manufacturing of clear aligners.
+    Project has been made for cutting process in manufacturing of clear aligners:
 </p>
 
   
