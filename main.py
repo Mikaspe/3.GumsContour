@@ -67,11 +67,8 @@ def get_contour(sides):
     for side in sides:  # Counting how many times same side appears
         sides_counter[side] = sides_counter.get(side, 0) + 1
 
-    sides_contour = []  # Sides that make model contour
-    for side in sides_counter:  # Choosing sides that appears once - model contour
-        if sides_counter[side] == 1:
-            sides_contour.append(side)
-
+    # Choosing sides that appears once so it's model contour
+    sides_contour = [side for side in sides_counter if sides_counter[side] == 1]
     return sides_contour
 
 
@@ -91,7 +88,7 @@ def get_gums_contour(all_sides_contours, min_gum_line_length=100, max_gum_line_l
                     one_of_contours.append(side[0])
                     all_sides_contours.remove(side)
                     break
-            else:  # That's means there's no more points(sides) in 'one_of_contours'
+            else:  # That's means there's no more points(sides) that should be in 'one_of_contours'
                 break
 
         if min_gum_line_length < len(one_of_contours) < max_gum_line_length:  # Determing all gums in one list
