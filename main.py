@@ -1,4 +1,5 @@
 from pathvalidate import is_valid_filename
+from collections import Counter
 
 
 def extract_triangles_from_stl_file():
@@ -62,10 +63,9 @@ def get_sides_of_triangles(triangles):
 
 def get_contour(sides):
     """Determing model contour from sides."""
-    # Side makes contour if appears only once in sides
-    sides_counter = {}
-    for side in sides:  # Counting how many times same side appears
-        sides_counter[side] = sides_counter.get(side, 0) + 1
+
+    # Counting how many times same side appears, side makes contour if appears only once in sides
+    sides_counter = Counter(sides)
 
     # Choosing sides that appears once so it's model contour
     sides_contour = [side for side in sides_counter if sides_counter[side] == 1]
