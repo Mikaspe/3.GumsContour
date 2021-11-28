@@ -2,8 +2,10 @@ from pathvalidate import is_valid_filename
 from collections import Counter
 
 
-def extract_triangles_from_stl_file():
-    """Extracting all triangle coordinates from stl file."""
+def extract_triangles_from_stl_file() -> list:
+    """Extracting all triangle coordinates from stl file.
+    Returns list with tuples, where each tuple is a one triangle vertices coordinates.
+    """
     triangles_data = []
 
     while True:
@@ -36,7 +38,7 @@ def extract_triangles_from_stl_file():
     return triangles_data
 
 
-def get_sides_of_triangles(triangles):
+def get_sides_of_triangles(triangles) -> list:
     """Determining all triangles sides from triangles coordinates.
     One side is a tuple of two triangle vertieces.
     """
@@ -61,7 +63,7 @@ def get_sides_of_triangles(triangles):
     return sides
 
 
-def get_contour(sides):
+def get_contour(sides) -> list:
     """Determing model contour from sides."""
 
     # Counting how many times same side appears, side makes contour if appears only once in sides
@@ -72,7 +74,7 @@ def get_contour(sides):
     return sides_contour
 
 
-def get_gums_contour(all_sides_contours, min_gum_line_length=100, max_gum_line_length=400):
+def get_gums_contour(all_sides_contours, min_gum_line_length=100, max_gum_line_length=400) -> list:
     """Determing gums contour points of whole model contours."""
     gums_contour = []
     while all_sides_contours:  # This loop separates each contour in model and picks contours that makes a gum
@@ -98,7 +100,7 @@ def get_gums_contour(all_sides_contours, min_gum_line_length=100, max_gum_line_l
     return gums_contour
 
 
-def export_to_file(points, filename):
+def export_to_file(points, filename) -> None:
     """Exporting 3D points as .obj file."""
     try:
         with open(filename + '.obj', "w") as f:
